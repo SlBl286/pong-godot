@@ -1,11 +1,30 @@
 [gd_scene format=3 uid="uid://dn3ml2stxdcqr"]
 
+[ext_resource type="FontFile" uid="uid://ce5dpd3puqtyy" path="res://Assets/fonts/Teko/static/Teko-SemiBold.ttf" id="1_hfhsn"]
 [ext_resource type="Texture2D" uid="uid://dwtf6d7j3b7eq" path="res://Assets/arts/ScoreBar.png" id="1_w371h"]
 [ext_resource type="FontFile" uid="uid://bneljuok2i05l" path="res://Assets/fonts/Teko/static/Teko-Medium.ttf" id="2_nxvpl"]
+[ext_resource type="Texture2D" uid="uid://bto7wcj5cot0h" path="res://Assets/arts/replay.png" id="3_dewlx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dewlx"]
+bg_color = Color(0.8352941, 0.44313726, 0.827451, 0.40784314)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="UI" type="CanvasLayer" unique_id=705719689]
 scale = Vector2(1.5, 1.5)
 transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
+
+[node name="CountToStartLabel" type="Label" parent="." unique_id=1628939133]
+offset_left = 407.33344
+offset_top = 215.33333
+offset_right = 447.33344
+offset_bottom = 319.3333
+theme_override_fonts/font = ExtResource("1_hfhsn")
+theme_override_font_sizes/font_size = 72
+text = "0"
+horizontal_alignment = 1
 
 [node name="Player1ScoreBoard" type="TextureRect" parent="." unique_id=1373127177]
 offset_right = 341.0
@@ -76,3 +95,37 @@ text = "0:00"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="GameOverPanel" type="Panel" parent="." unique_id=477823472]
+visible = false
+offset_left = 300.00003
+offset_top = 168.66667
+offset_right = 564.0
+offset_bottom = 337.33334
+theme_override_styles/panel = SubResource("StyleBoxFlat_dewlx")
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel" unique_id=1247347475]
+layout_mode = 0
+offset_left = 44.666656
+offset_top = 16.666666
+offset_right = 223.66666
+offset_bottom = 88.666664
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 20.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_nxvpl")
+theme_override_font_sizes/font_size = 50
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Button" type="Button" parent="GameOverPanel" unique_id=600049863]
+layout_mode = 0
+offset_left = 104.66665
+offset_top = 93.33333
+offset_right = 624.6666
+offset_bottom = 613.3333
+scale = Vector2(0.1, 0.1)
+icon = ExtResource("3_dewlx")
+flat = true

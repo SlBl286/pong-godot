@@ -7,18 +7,21 @@
 
 [node name="Main" type="Node2D" unique_id=684164130]
 
+[node name="PrepareTimer" type="Timer" parent="." unique_id=70997581]
+
+[node name="GameTimer" type="Timer" parent="." unique_id=1136647780]
+
 [node name="Board" parent="." unique_id=1413609569 instance=ExtResource("3_kln2b")]
 
-[node name="UI" parent="." unique_id=705719689 instance=ExtResource("2_rgh2o")]
-
 [node name="RightPaddle" parent="." unique_id=1968196563 instance=ExtResource("2_kln2b")]
-position = Vector2(1200, 350)
+position = Vector2(1230, 350)
 rotation = 3.1415927
 
 [node name="LeftPaddle" parent="." unique_id=1866682308 instance=ExtResource("2_kln2b")]
-position = Vector2(80, 330)
+position = Vector2(50, 330)
 
 [node name="Ball" parent="." unique_id=695335071 instance=ExtResource("1_idj7w")]
+visible = false
 position = Vector2(640, 384)
 
-[node name="GameTimer" type="Timer" parent="." unique_id=1136647780]
+[node name="UI" parent="." unique_id=705719689 instance=ExtResource("2_rgh2o")]

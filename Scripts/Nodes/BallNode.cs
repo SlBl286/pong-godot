@@ -31,13 +31,16 @@ public partial class BallNode : CharacterBody2D
     {
         if (GlobalPosition.X - _radius <= 0)
         {
-            GD.Print("Enemy scored!");
+            Position = new Vector2(640, 483);
             LeftGoal?.Invoke();
 
         }
 
-        if (Position.X > _screenWidth)
+        if (Position.X >= _screenWidth - _radius)
+        {
+            Position = new Vector2(640, 483);
             RightGoal?.Invoke();
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -48,12 +51,7 @@ public partial class BallNode : CharacterBody2D
 
         var collision = GetLastSlideCollision();
 
-        if (Position.X <= _radius || Position.X >= _screenWidth - _radius)
-        {
-            Position = new Vector2(640, 483);
-            _logic.Reset();
-        }
-        else if (Position.Y <= (_radius + 70.0) || Position.Y >= _screenHeight - _radius)
+        if (Position.Y <= (_radius + 70.0) || Position.Y >= _screenHeight - _radius)
         {
             _logic.Bounce(Vector2.Up);
         }
