@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dn3ml2stxdcqr"]
+
+[ext_resource type="Texture2D" uid="uid://dwtf6d7j3b7eq" path="res://Assets/arts/ScoreBar.png" id="1_w371h"]
+[ext_resource type="FontFile" uid="uid://bneljuok2i05l" path="res://Assets/fonts/Teko/static/Teko-Medium.ttf" id="2_nxvpl"]
+
+[node name="UI" type="CanvasLayer" unique_id=705719689]
+scale = Vector2(1.5, 1.5)
+transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
+
+[node name="Player1ScoreBoard" type="TextureRect" parent="." unique_id=1373127177]
+offset_right = 341.0
+offset_bottom = 47.0
+texture = ExtResource("1_w371h")
+
+[node name="Player1Score" type="Label" parent="Player1ScoreBoard" unique_id=1102568074]
+layout_mode = 0
+offset_left = 251.33334
+offset_top = 1.3333334
+offset_right = 291.33337
+offset_bottom = 62.333332
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_nxvpl")
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Player2ScoreBoard" type="TextureRect" parent="." unique_id=654569317]
+offset_left = 512.6667
+offset_right = 853.6667
+offset_bottom = 47.0
+texture = ExtResource("1_w371h")
+flip_h = true
+
+[node name="Player2Score" type="Label" parent="Player2ScoreBoard" unique_id=385180618]
+layout_mode = 0
+offset_left = 52.66669
+offset_top = 2.0
+offset_right = 92.6667
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_nxvpl")
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="TimeLabelTitle" type="Label" parent="." unique_id=1350273726]
+offset_left = 343.99997
+offset_top = -10.0
+offset_right = 513.0
+offset_bottom = 37.0
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 20.0
+theme_override_colors/font_color = Color(0.5592615, 0.32388458, 0.45832098, 1)
+theme_override_fonts/font = ExtResource("2_nxvpl")
+theme_override_font_sizes/font_size = 28
+text = "TIME"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="TimeLabel" type="Label" parent="." unique_id=1030104971]
+offset_left = 345.3333
+offset_top = 11.333334
+offset_right = 514.3333
+offset_bottom = 62.33333
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 20.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_nxvpl")
+theme_override_font_sizes/font_size = 32
+text = "0:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://hta1lhnybr5y"]
+
+[ext_resource type="Texture2D" uid="uid://b4ms7wxfr4rvq" path="res://Assets/arts/Board.png" id="1_tnbny"]
+
+[node name="Board" type="Node2D" unique_id=1413609569]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=560138535]
+position = Vector2(640, 383.99997)
+scale = Vector2(1.59601, 1.6879122)
+texture = ExtResource("1_tnbny")
