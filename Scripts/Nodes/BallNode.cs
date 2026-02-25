@@ -6,11 +6,12 @@ namespace Pong.Scripts.Nodes;
 
 public partial class BallNode : CharacterBody2D
 {
+    const float BaseSpeed = 300f;
     [Export]
-    public float Speed = 300;
-    public event Action LeftGoal;
-    public event Action RightGoal;
-    private BallLogic _logic;
+    public float Speed;
+    [Export]
+    public bool CanMove = false;
+    public event Action<bool> OnGoal;
     private Vector2 _direction;
     private float _screenHeight;
     private float _screenWidth;
@@ -18,8 +19,7 @@ public partial class BallNode : CharacterBody2D
 
     public override void _Ready()
     {
-        _logic = new BallLogic();
-
+        Speed = BaseSpeed;
         _direction = new Vector2(1, 0).Normalized();
         _screenHeight = GetViewportRect().Size.Y;
         _screenWidth = GetViewportRect().Size.X;
@@ -31,21 +31,35 @@ public partial class BallNode : CharacterBody2D
     {
         if (GlobalPosition.X - _radius <= 0)
         {
-            Position = new Vector2(640, 483);
-            LeftGoal?.Invoke();
-
+            ResetToCenter();
+            OnGoal?.Invoke(false);
         }
 
         if (Position.X >= _screenWidth - _radius)
         {
-            Position = new Vector2(640, 483);
-            RightGoal?.Invoke();
+            ResetToCenter();
+            OnGoal?.Invoke(true);
         }
     }
+    public void ResetToCenter()
+    {
+        GlobalPosition = GetViewportRect().Size / 2;
+        Velocity = Vector2.Zero;
+    }
 
+    public void RandomizeDirection()
+    {
+        float dir = GD.Randf() > 0.5f ? 1 : -1;
+        Velocity = new Vector2(400 * dir, GD.RandRange(-200, 200));
+    }
+    public void IncreaseSpeed(float amount)
+    {
+        Speed += amount;
+    }
     public override void _PhysicsProcess(double delta)
     {
-        Velocity = _logic.GetVelocity();
+        if (!CanMove) return;
+        Velocity = Speed * _direction;
 
         MoveAndSlide();
 
@@ -53,11 +67,12 @@ public partial class BallNode : CharacterBody2D
 
         if (Position.Y <= (_radius + 70.0) || Position.Y >= _screenHeight - _radius)
         {
-            _logic.Bounce(Vector2.Up);
+            _direction = _direction.Bounce(Vector2.Up);
         }
         else if (collision != null)
         {
-            _logic.Bounce(collision.GetNormal());
+            _direction = _direction.Bounce(collision.GetNormal());
+
         }
     }
 

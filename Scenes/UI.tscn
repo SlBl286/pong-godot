@@ -128,4 +128,3 @@ offset_right = 624.6666
 offset_bottom = 613.3333
 scale = Vector2(0.1, 0.1)
 icon = ExtResource("3_dewlx")
-flat = true

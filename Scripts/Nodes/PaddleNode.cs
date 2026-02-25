@@ -3,8 +3,10 @@ namespace Pong.Scripts.Nodes;
 
 public partial class PaddleNode : CharacterBody2D
 {
-    [Export]
-    public float Speed = 400;
+    [Export] public float Speed = 400;
+    [Export] public bool CanMove = false;
+    [Export] public string UpAction = "ui_up";
+    [Export] public string DownAction = "ui_down";
     private float _halfHeight;
     private float _screenHeight;
     public override void _Ready()
@@ -17,25 +19,25 @@ public partial class PaddleNode : CharacterBody2D
     }
     public override void _PhysicsProcess(double delta)
     {
+        if (!CanMove) return;
         float direction = 0;
 
-        if (Input.IsActionPressed("move_up"))
+        if (Input.IsActionPressed(UpAction))
         {
             direction -= 1;
         }
-        if (Input.IsActionPressed("move_down"))
+        if (Input.IsActionPressed(DownAction))
         {
             direction += 1;
         }
 
-        Position += new Vector2(0, direction * 400f * (float)delta);
-
+        Position += new Vector2(0, direction * Speed * (float)delta);
         // Clamp giới hạn trên và dưới
         Position = new Vector2(
             Position.X,
             Mathf.Clamp(
                 Position.Y,
-                _halfHeight,
+                _halfHeight + 72,
                 _screenHeight - _halfHeight
             )
         );

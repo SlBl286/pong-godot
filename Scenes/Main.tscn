@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://cta4e7ewh4y1m"]
 
 [ext_resource type="PackedScene" uid="uid://d2c7hs3c3onn4" path="res://Scenes/Ball.tscn" id="1_idj7w"]
+[ext_resource type="Script" uid="uid://cs055bu7ohuyg" path="res://Scripts/Nodes/InGameMain.cs" id="1_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://balfc6uk0giis" path="res://Scenes/Paddle.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://dn3ml2stxdcqr" path="res://Scenes/UI.tscn" id="2_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://hta1lhnybr5y" path="res://Scenes/Board.tscn" id="3_kln2b"]
 
 [node name="Main" type="Node2D" unique_id=684164130]
+script = ExtResource("1_pbw6q")
 
 [node name="PrepareTimer" type="Timer" parent="." unique_id=70997581]
 
@@ -16,6 +18,7 @@
 [node name="RightPaddle" parent="." unique_id=1968196563 instance=ExtResource("2_kln2b")]
 position = Vector2(1230, 350)
 rotation = 3.1415927
+input_pickable = true
 
 [node name="LeftPaddle" parent="." unique_id=1866682308 instance=ExtResource("2_kln2b")]
 position = Vector2(50, 330)
