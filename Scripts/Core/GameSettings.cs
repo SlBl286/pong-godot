@@ -1,11 +1,11 @@
-namespace pong.Scripts.Core;
+namespace Pong.Scripts.Core;
 
 public enum GameMode
 {
     VsAI,
     VsPlayer
 }
-public enum GameScence
+public enum GameScene
 {
     MainMenu,
     InGame
@@ -14,6 +14,5 @@ public enum GameScence
 public static class GameSettings
 {
     public static GameMode Mode = GameMode.VsPlayer;
-    public static GameScence CurrentScence = GameScence.MainMenu;
-
+    public static GameScene CurrentScene = GameScene.MainMenu;
 }

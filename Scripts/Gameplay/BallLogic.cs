@@ -1,36 +1,56 @@
-using System;
 using Godot;
 
-namespace pong.Scripts.Gameplay
+namespace Pong.Scripts.Gameplay;
+
+public class BallLogic
 {
-    public class BallLogic
+    private const float BaseSpeed = 300f;
+    private const float MaxSpeed = 800f;
+    private const float SpeedIncrement = 20f;
+
+    public float Speed { get; set; }
+    public Vector2 Direction { get; set; }
+
+    public BallLogic()
     {
-        public float Speed { get; set; } = 300f;
-        public Vector2 Direction { get; private set; }
+        Reset();
+    }
 
-        public BallLogic()
-        {
-            Reset();
-        }
+    public void Reset()
+    {
+        Speed = BaseSpeed;
+        RandomizeDirection();
+    }
 
-        public void Reset()
-        {
-            
-            var rand = new Random();
-            float x = rand.Next(0, 2) == 0 ? -1 : 1;
-            float y = (float)(rand.NextDouble() * 2 - 1);
-            Direction = new Vector2(x, y).Normalized();
+    public void RandomizeDirection()
+    {
+        float x = GD.Randf() > 0.5f ? 1 : -1;
+        float y = GD.RandRange(-1, 1);
+        Direction = new Vector2(x, y).Normalized();
+    }
 
-        }
+    public Vector2 GetVelocity()
+    {
+        return Direction * Speed;
+    }
 
-        public Vector2 GetVelocity()
-        {
-            return Direction * Speed;
-        }
+    public void BounceVertical()
+    {
+        Direction = new Vector2(Direction.X, -Direction.Y).Normalized();
+    }
 
-        public void Bounce(Vector2 normal)
-        {
-            Direction = Direction.Bounce(normal);
-        }
+    public void BounceOffNormal(Vector2 normal)
+    {
+        Direction = Direction.Bounce(normal).Normalized();
+    }
+
+    public void IncreaseSpeed()
+    {
+        Speed = Mathf.Min(Speed + SpeedIncrement, MaxSpeed);
+    }
+
+    public void IncreaseSpeed(float amount)
+    {
+        Speed = Mathf.Min(Speed + amount, MaxSpeed);
     }
 }

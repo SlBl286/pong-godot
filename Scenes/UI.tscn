@@ -16,7 +16,7 @@ corner_radius_bottom_left = 5
 scale = Vector2(1.5, 1.5)
 transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
 
-[node name="CountToStartLabel" type="Label" parent="." unique_id=1628939133]
+[node name="PrepareTimeLabel" type="Label" parent="." unique_id=1628939133]
 offset_left = 407.33344
 offset_top = 215.33333
 offset_right = 447.33344

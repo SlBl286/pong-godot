@@ -1,13 +1,10 @@
 using Godot;
-using pong.Scripts.Core;
 using Pong.Scripts.Core;
 
 namespace Pong.Scripts.Nodes;
 
 public partial class MainMenu : Control
 {
-        private InGameMain _inGame;
-
     public override void _Ready()
     {
         GetNode<Button>("VBoxContainer/VsAIBtn").Pressed += OnVsAI;
@@ -17,14 +14,12 @@ public partial class MainMenu : Control
     private void OnVsAI()
     {
         GameSettings.Mode = GameMode.VsAI;
-        GetTree().ChangeSceneToFile("res://Scenes//Main.tscn");
-             _inGame = GetNode<InGameMain>("../Main");
-        _inGame.OnGoToInGame += OnVsPlayer;
+        GetTree().ChangeSceneToFile("res://Scenes/Main.tscn");
     }
 
     private void OnVsPlayer()
     {
         GameSettings.Mode = GameMode.VsPlayer;
-        GetTree().ChangeSceneToFile("res://Scenes//Main.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Main.tscn");
     }
 }

@@ -1,80 +1,111 @@
-using Godot;
-using pong.Scripts.Gameplay;
-using Pong.Scripts.Core;
 using System;
+using Godot;
+using Pong.Scripts.Gameplay;
+
 namespace Pong.Scripts.Nodes;
 
 public partial class BallNode : CharacterBody2D
 {
-    const float BaseSpeed = 300f;
+    private const float TopBoundary = 70f;
+
     [Export]
-    public float Speed;
-    [Export]
-    public bool CanMove = false;
-    public event Action<bool> OnGoal;
-    private Vector2 _direction;
+    public bool CanMove { get; set; } = false;
+
+    public event Action<bool> OnGoalScored;
+
+    private readonly BallLogic _logic = new();
+    private float _radius;
     private float _screenHeight;
     private float _screenWidth;
-    private float _radius;
+
+    public Vector2 Direction
+    {
+        get => _logic.Direction;
+        set => _logic.Direction = value;
+    }
+
+    public float Speed
+    {
+        get => _logic.Speed;
+        set => _logic.Speed = value;
+    }
 
     public override void _Ready()
     {
-        Speed = BaseSpeed;
-        _direction = new Vector2(1, 0).Normalized();
         _screenHeight = GetViewportRect().Size.Y;
         _screenWidth = GetViewportRect().Size.X;
 
         var shape = GetNode<CollisionShape2D>("CollisionShape2D").Shape as CircleShape2D;
         _radius = shape.Radius;
     }
+
     public override void _Process(double delta)
     {
-        if (GlobalPosition.X - _radius <= 0)
-        {
-            ResetToCenter();
-            OnGoal?.Invoke(false);
-        }
-
-        if (Position.X >= _screenWidth - _radius)
-        {
-            ResetToCenter();
-            OnGoal?.Invoke(true);
-        }
-    }
-    public void ResetToCenter()
-    {
-        GlobalPosition = GetViewportRect().Size / 2;
-        Velocity = Vector2.Zero;
+        CheckGoal();
     }
 
-    public void RandomizeDirection()
-    {
-        float dir = GD.Randf() > 0.5f ? 1 : -1;
-        Velocity = new Vector2(400 * dir, GD.RandRange(-200, 200));
-    }
-    public void IncreaseSpeed(float amount)
-    {
-        Speed += amount;
-    }
     public override void _PhysicsProcess(double delta)
     {
         if (!CanMove) return;
-        Velocity = Speed * _direction;
 
+        Velocity = _logic.GetVelocity();
         MoveAndSlide();
+        HandleCollisions();
+    }
 
-        var collision = GetLastSlideCollision();
-
-        if (Position.Y <= (_radius + 70.0) || Position.Y >= _screenHeight - _radius)
+    private void CheckGoal()
+    {
+        if (GlobalPosition.X - _radius <= 0)
         {
-            _direction = _direction.Bounce(Vector2.Up);
+            Reset();
+            OnGoalScored?.Invoke(false);
         }
-        else if (collision != null)
+        else if (GlobalPosition.X >= _screenWidth - _radius)
         {
-            _direction = _direction.Bounce(collision.GetNormal());
-
+            Reset();
+            OnGoalScored?.Invoke(true);
         }
     }
 
+    private void HandleCollisions()
+    {
+        bool hitTopOrBottom = Position.Y <= _radius + TopBoundary || 
+                              Position.Y >= _screenHeight - _radius;
 
+        if (hitTopOrBottom)
+        {
+            _logic.BounceVertical();
+            Position = new Vector2(Position.X, Mathf.Clamp(Position.Y, _radius + TopBoundary + 1, _screenHeight - _radius - 1));
+        }
+
+        var collision = GetLastSlideCollision();
+        if (collision != null)
+        {
+            _logic.BounceOffNormal(collision.GetNormal());
+            _logic.IncreaseSpeed();
+        }
+    }
+
+    public void Reset()
+    {
+        GlobalPosition = GetViewportRect().Size / 2;
+        Velocity = Vector2.Zero;
+        _logic.Reset();
+    }
+
+    public void Start()
+    {
+        Reset();
+        CanMove = true;
+    }
+
+    public void Stop()
+    {
+        CanMove = false;
+        Velocity = Vector2.Zero;
+    }
+
+    public void RandomizeDirection() => _logic.RandomizeDirection();
+
+    public void IncreaseSpeed(float amount) => _logic.IncreaseSpeed(amount);
 }
